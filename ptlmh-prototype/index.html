@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HydroSense IoT - PLTMH Monitor</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2><i class="fa-solid fa-water"></i> HydroSense</h2>
+            </div>
+            <nav class="sidebar-nav">
+                <ul>
+                    <li class="active" id="nav-dashboard"><a href="#" onclick="switchTab('dashboard')"><i class="fa-solid fa-chart-line"></i> Dashboard</a></li>
+                    <li id="nav-kelistrikan"><a href="#" onclick="switchTab('kelistrikan')"><i class="fa-solid fa-bolt"></i> Kelistrikan</a></li>
+                    <li id="nav-turbin"><a href="#" onclick="switchTab('turbin')"><i class="fa-solid fa-fan"></i> Turbin & Mesin</a></li>
+                    <li id="nav-logbook"><a href="#" onclick="switchTab('logbook')"><i class="fa-solid fa-clipboard-list"></i> Logbook SOP</a></li>
+                    <li id="nav-alarm"><a href="#" onclick="switchTab('alarm')"><i class="fa-solid fa-triangle-exclamation"></i> Alarm & EWS</a></li>
+                    <li id="nav-pengaturan"><a href="#" onclick="switchTab('pengaturan')"><i class="fa-solid fa-gear"></i> Pengaturan</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Header -->
+            <header class="top-header">
+                <div class="header-title">
+                    <h1>Dashboard Pemantauan PLTMH</h1>
+                    <p class="subtitle">Sistem Telemetri Real-Time</p>
+                </div>
+                <div class="header-actions">
+                    <div class="status-badge normal">
+                        <span class="dot"></span> Status: NORMAL
+                    </div>
+                    <div class="user-profile">
+                        <i class="fa-solid fa-user-circle"></i>
+                        <span>Operator Utama</span>
+                    </div>
+                </div>
+            </header>
+
+            <!-- TAB: Dashboard -->
+            <div id="dashboard-section" class="tab-content">
+                <!-- Dashboard Grid -->
+                <div class="dashboard-grid">
+                <!-- Hidrologi -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3><i class="fa-solid fa-water"></i> Kondisi Hidrologi</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="data-row">
+                            <span class="label">Debit Air (Q)</span>
+                            <span class="value" id="val-debit">0.85 <small>m³/s</small></span>
+                        </div>
+                        <div class="data-row">
+                            <span class="label">Level Bak Penenang</span>
+                            <span class="value" id="val-level">1.20 <small>m</small></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mekanikal Turbin -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3><i class="fa-solid fa-fan"></i> Mekanikal Turbin</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="data-row">
+                            <span class="label">RPM Turbin</span>
+                            <span class="value text-highlight" id="val-rpm">1500 <small>RPM</small></span>
+                        </div>
+                        <div class="data-row">
+                            <span class="label">Suhu Bearing</span>
+                            <span class="value" id="val-temp">45 <small>°C</small></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Output Kelistrikan -->
+                <div class="card span-2">
+                    <div class="card-header">
+                        <h3><i class="fa-solid fa-bolt"></i> Output Kelistrikan (3-Phase)</h3>
+                    </div>
+                    <div class="card-body flex-grid">
+                        <div class="stat-box">
+                            <div class="stat-label">Tegangan (R-S-T)</div>
+                            <div class="stat-value" id="val-voltage">382 <small>V</small></div>
+                        </div>
+                        <div class="stat-box">
+                            <div class="stat-label">Arus Total</div>
+                            <div class="stat-value" id="val-current">45 <small>A</small></div>
+                        </div>
+                        <div class="stat-box">
+                            <div class="stat-label">Frekuensi</div>
+                            <div class="stat-value" id="val-freq">50.02 <small>Hz</small></div>
+                        </div>
+                        <div class="stat-box">
+                            <div class="stat-label">Total Daya (kW)</div>
+                            <div class="stat-value" id="val-power">24.5 <small>kW</small></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Beban & Konsumsi -->
+                <div class="card span-2">
+                    <div class="card-header">
+                        <h3><i class="fa-solid fa-house-chimney-crack"></i> Beban Konsumen & Efisiensi</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="progress-container">
+                            <div class="progress-label">
+                                <span>Utilisasi Kapasitas (76.5%)</span>
+                                <span>24.5 kW / 32 kW</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 76.5%;"></div>
+                            </div>
+                        </div>
+                        <div class="status-message">
+                            <i class="fa-solid fa-check-circle"></i> Beban aman. Tidak ada risiko overload.
+                        </div>
+                    </div>
+                </div>
+
+                </div>
+            </div>
+
+            <!-- TAB: Logbook SOP -->
+            <div id="logbook-section" class="tab-content" style="display: none;">
+                <div class="dashboard-grid">
+                    <!-- Form SOP Checklist -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h3><i class="fa-solid fa-clipboard-check"></i> Checklist Inspeksi Harian</h3>
+                        </div>
+                        <div class="card-body">
+                            <form id="logbook-form">
+                                <div class="form-group">
+                                    <label class="form-label">Waktu Shift</label>
+                                    <select class="form-control" id="shift-select">
+                                        <option value="Pagi (07:00)">Pagi (07:00)</option>
+                                        <option value="Sore (17:00)">Sore (17:00)</option>
+                                    </select>
+                                </div>
+                                <div class="checklist-group">
+                                    <label class="checkbox-item">
+                                        <input type="checkbox" id="chk-sampah" required>
+                                        <span class="checkmark"></span>
+                                        Bersihkan sampah di saringan (Trash Rack) Intake
+                                    </label>
+                                    <label class="checkbox-item">
+                                        <input type="checkbox" id="chk-pelumas" required>
+                                        <span class="checkmark"></span>
+                                        Cek level oli dan kebocoran pelumas bearing
+                                    </label>
+                                    <label class="checkbox-item">
+                                        <input type="checkbox" id="chk-vbelt" required>
+                                        <span class="checkmark"></span>
+                                        Periksa kekencangan V-Belt Turbin
+                                    </label>
+                                </div>
+                                <div class="form-group" style="margin-top: 1.5rem;">
+                                    <label class="form-label">Catatan Tambahan</label>
+                                    <textarea class="form-control" id="log-notes" rows="3" placeholder="Tulis anomali yang ditemukan..."></textarea>
+                                </div>
+                                <button type="button" class="btn btn-primary" onclick="submitLog()">
+                                    <i class="fa-solid fa-save"></i> Simpan Log Harian
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+
+                    <!-- Riwayat Insiden -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h3><i class="fa-solid fa-history"></i> Riwayat Perawatan & Insiden</h3>
+                        </div>
+                        <div class="card-body p-0">
+                            <div class="table-responsive">
+                                <table class="data-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Tanggal</th>
+                                            <th>Shift</th>
+                                            <th>Tindakan / Insiden</th>
+                                            <th>Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="log-history-table">
+                                        <tr>
+                                            <td>17 Aug 2026</td>
+                                            <td>Pagi</td>
+                                            <td>Inspeksi rutin. V-Belt sedikit kendur (telah dikencangkan).</td>
+                                            <td><span class="badge badge-success">Selesai</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td>16 Aug 2026</td>
+                                            <td>Sore</td>
+                                            <td>Pembersihan tumpukan dahan kayu di Trash Rack.</td>
+                                            <td><span class="badge badge-success">Selesai</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td>15 Aug 2026</td>
+                                            <td>-</td>
+                                            <td><strong>EMERGENCY:</strong> Tegangan overlimit, reset manual AVR.</td>
+                                            <td><span class="badge badge-warning">Insiden</span></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB: Kelistrikan -->
+            <div id="kelistrikan-section" class="tab-content" style="display: none;">
+                <div class="dashboard-grid">
+                    <div class="card span-2">
+                        <div class="card-header">
+                            <h3><i class="fa-solid fa-bolt"></i> Output Kelistrikan 3-Phase</h3>
+                        </div>
+                        <div class="card-body flex-grid">
+                            <div class="stat-box">
+                                <div class="stat-label">Tegangan Phase R</div>
+                                <div class="stat-value" id="val-v-r">382 <small>V</small></div>
+                            </div>
+                            <div class="stat-box">
+                                <div class="stat-label">Tegangan Phase S</div>
+                                <div class="stat-value" id="val-v-s">380 <small>V</small></div>
+                            </div>
+                            <div class="stat-box">
+                                <div class="stat-label">Tegangan Phase T</div>
+                                <div class="stat-value" id="val-v-t">381 <small>V</small></div>
+                            </div>
+                        </div>
+                        <div class="card-body flex-grid" style="padding-top: 0;">
+                            <div class="stat-box" style="background-color: transparent; border: 1px dashed var(--border-color);">
+                                <div class="stat-label">Arus Phase R</div>
+                                <div class="stat-value" id="val-i-r">14.5 <small>A</small></div>
+                            </div>
+                            <div class="stat-box" style="background-color: transparent; border: 1px dashed var(--border-color);">
+                                <div class="stat-label">Arus Phase S</div>
+                                <div class="stat-value" id="val-i-s">15.2 <small>A</small></div>
+                            </div>
+                            <div class="stat-box" style="background-color: transparent; border: 1px dashed var(--border-color);">
+                                <div class="stat-label">Arus Phase T</div>
+                                <div class="stat-value" id="val-i-t">14.8 <small>A</small></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card-header">
+                            <h3><i class="fa-solid fa-wave-square"></i> Kualitas Daya</h3>
+                        </div>
+                        <div class="card-body grid-3">
+                            <div class="meter-container">
+                                <div class="meter-title">Frekuensi</div>
+                                <div class="meter-value" id="val-freq-detail">50.02</div>
+                                <div class="meter-title">Hz</div>
+                            </div>
+                            <div class="meter-container">
+                                <div class="meter-title">Power Factor</div>
+                                <div class="meter-value" id="val-pf">0.85</div>
+                                <div class="meter-title">cos φ</div>
+                            </div>
+                            <div class="meter-container">
+                                <div class="meter-title">Daya Semu</div>
+                                <div class="meter-value" id="val-kva">28.8</div>
+                                <div class="meter-title">kVA</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB: Turbin -->
+            <div id="turbin-section" class="tab-content" style="display: none;">
+                <div class="dashboard-grid">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3><i class="fa-solid fa-gauge-high"></i> Parameter Mekanikal</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="data-row">
+                                <span class="label">Putaran Turbin (RPM)</span>
+                                <span class="value text-highlight" id="val-rpm-detail">1500 <small>RPM</small></span>
+                            </div>
+                            <div class="data-row">
+                                <span class="label">Debit Air Input</span>
+                                <span class="value" id="val-flow">0.85 <small>m³/s</small></span>
+                            </div>
+                            <div class="data-row">
+                                <span class="label">Bukaan Guide Vane</span>
+                                <span class="value" id="val-guide-vane">75 <small>%</small></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <h3><i class="fa-solid fa-temperature-half"></i> Kondisi Suhu & Getaran</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="data-row">
+                                <span class="label">Suhu Bearing Depan</span>
+                                <span class="value" id="val-temp-bearing1">45 <small>°C</small></span>
+                            </div>
+                            <div class="data-row">
+                                <span class="label">Suhu Bearing Belakang</span>
+                                <span class="value" id="val-temp-bearing2">48 <small>°C</small></span>
+                            </div>
+                            <div class="data-row">
+                                <span class="label">Suhu Stator Generator</span>
+                                <span class="value" id="val-temp-stator">62 <small>°C</small></span>
+                            </div>
+                            <div class="data-row">
+                                <span class="label">Vibrasi (Getaran)</span>
+                                <span class="value" id="val-vibration">1.2 <small>mm/s</small></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB: Alarm -->
+            <div id="alarm-section" class="tab-content" style="display: none;">
+                <div class="dashboard-grid">
+                    <div class="card span-2">
+                        <div class="card-header">
+                            <h3><i class="fa-solid fa-triangle-exclamation"></i> Early Warning System (EWS)</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="ews-banner" id="ews-status-banner">
+                                <i class="fa-solid fa-shield-halved ews-icon"></i>
+                                <div class="ews-content">
+                                    <h3 id="ews-title">Sistem Normal (Aman)</h3>
+                                    <p id="ews-desc">Seluruh parameter hidrologi, mekanikal, dan elektrikal berada pada batas toleransi operasional. Tidak ada indikasi anomali sistem.</p>
+                                </div>
+                            </div>
+                            
+                            <h4 style="margin-bottom: 1rem; color: var(--text-main);">Log Alarm Terbaru</h4>
+                            <div class="table-responsive">
+                                <table class="data-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Waktu Kejadian</th>
+                                            <th>Level</th>
+                                            <th>Deskripsi Anomali</th>
+                                            <th>Tindakan / Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="alarm-log-table">
+                                        <tr>
+                                            <td>Hari ini, 10:15 WIB</td>
+                                            <td><span class="badge badge-warning">Warning</span></td>
+                                            <td>Suhu Bearing Belakang mencapai 52°C</td>
+                                            <td><span class="badge badge-success">Terselesaikan (Suhu Turun)</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Kemarin, 14:30 WIB</td>
+                                            <td><span class="badge badge-danger">Critical</span></td>
+                                            <td>Frekuensi Drop ke 48.5 Hz (Overload)</td>
+                                            <td><span class="badge badge-success">Manual Reset AVR</span></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB: Pengaturan -->
+            <div id="pengaturan-section" class="tab-content" style="display: none;">
+                <div class="dashboard-grid">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3><i class="fa-solid fa-sliders"></i> Batas Alarm (Threshold)</h3>
+                        </div>
+                        <div class="card-body">
+                            <form id="settings-form">
+                                <div class="form-group">
+                                    <label class="form-label">Batas Suhu Maksimal Bearing (°C)</label>
+                                    <input type="number" class="form-control" id="set-temp-max" value="65">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Batas Tegangan Bawah - UnderVoltage (V)</label>
+                                    <input type="number" class="form-control" id="set-volt-min" value="360">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Batas Frekuensi Bawah (Hz)</label>
+                                    <input type="number" class="form-control" id="set-freq-min" value="49.0">
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card-header">
+                            <h3><i class="fa-solid fa-toggle-on"></i> Konfigurasi Sistem</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="setting-row">
+                                <div class="setting-info">
+                                    <h4>Auto Load Shedding</h4>
+                                    <p>Otomatis memutus beban non-prioritas jika frekuensi drop.</p>
+                                </div>
+                                <label class="switch">
+                                    <input type="checkbox" id="toggle-als" checked>
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+                            <div class="setting-row">
+                                <div class="setting-info">
+                                    <h4>Notifikasi Suara Alarm</h4>
+                                    <p>Bunyikan sirine di ruang operator (Web Audio API).</p>
+                                </div>
+                                <label class="switch">
+                                    <input type="checkbox" id="toggle-audio">
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+                            <div class="setting-row">
+                                <div class="setting-info">
+                                    <h4>Mode Maintenance</h4>
+                                    <p>Nonaktifkan pembacaan alarm selama perbaikan.</p>
+                                </div>
+                                <label class="switch">
+                                    <input type="checkbox" id="toggle-maintenance">
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+                            <div style="margin-top: 1.5rem;">
+                                <button type="button" class="btn btn-primary" onclick="saveSettings()">
+                                    <i class="fa-solid fa-floppy-disk"></i> Simpan Pengaturan
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+    </div>
+    <script src="js/app.js"></script>
+</body>
+</html>
