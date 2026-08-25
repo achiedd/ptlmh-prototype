@@ -61,8 +61,22 @@ function connectWebSocket() {
 // =========================================
 function initiateMockFallback() {
     if(!window.mockInterval) {
-        window.mockInterval = setInterval(() => {
+        window.mockInterval = setInterval(async () => {
             if(!isConnected) {
+                try {
+                    // Coba ambil data dari Vercel Serverless Function (/api/telemetry)
+                    const response = await fetch('/api/telemetry');
+                    if (response.ok) {
+                        const msg = await response.json();
+                        updateDashboardWithData(msg.data);
+                        document.querySelector('.subtitle').innerHTML = 'Sistem Telemetri Real-Time <span style="color: var(--accent-success);">(LIVE - Vercel API Mode)</span>';
+                        return;
+                    }
+                } catch(e) {
+                    // Abaikan error, lanjut ke lokal fallback
+                }
+                
+                // Fallback ke local mock data jika API Vercel tidak tersedia
                 const mockData = generateMockData();
                 updateDashboardWithData(mockData);
             }

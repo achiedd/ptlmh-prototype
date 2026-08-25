@@ -4,7 +4,8 @@
   "description": "Backend API and WebSocket Server for HydroSense PLTMH IoT",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js"
+    "dev": "node server.js",
+    "build": "echo 'No build required for Vercel static'"
   },
   "dependencies": {
     "express": "^4.21.0",
